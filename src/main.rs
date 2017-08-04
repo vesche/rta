@@ -43,8 +43,8 @@ fn main() {
     ["|","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","|"]];
     
     // starting position
-    let mut pos_y: i32 = 5;
-    let mut pos_x: i32 = 10;
+    let mut pos_y: i32 = 7;
+    let mut pos_x: i32 = 7;
     
     // initial variables
     let mut mod_y: i32 = 0;
