@@ -5,64 +5,54 @@
 
 use common::xprint;
 
+// description and items are going to pop off as needed
+// probably have to keep the state of each struct externaL? gross
+
+// i'll keep a huge state list that will match with ALL_TILES
+// state = [0, 0, 0, 0, 0, 1, 1, 1]
+// ALL_TILES = [BEACH, JUNGLE_A ..
+
 struct Tile {
-    pos_y: i32,
-    pos_x: i32,
-    desc: &'static str,  // this might need to be an array
-    items: &'static str, // this might need to be an array (pop off in interaction)
-    state: i32,
+    coord:  (i32, i32),
+    desc:   &'static str,
+    items:  &'static str,
 }
 
-/* TEMPLATE
-const NAME: Tile = Tile {
-    pos_y: 0,
-    pos_x: 0,
-    desc: "",
-    items: "",
-    state: 0,
-}
+/*
+    Jungle (south west side of the map)
 */
-
-const BEACH: Tile = Tile {
-    pos_y: 4,
-    pos_x: 10,
-    desc: "Beach",
-    items: "",
-    state: 0,
-};
-
 const JUNGLE_A: Tile = Tile {
-    pos_y: 7,
-    pos_x: 6,
-    desc: "There are thick trees all around you. JUNGLE_A",
-    items: "",
-    state: 0,
+    coord:  (6, 7),
+    desc:   "JUNGLE_A",
+    items:  "",
 };
-
-// Starting map!
 const JUNGLE_B: Tile = Tile {
-    pos_y: 7,
-    pos_x: 7,
-    desc: "There are thick trees all around you. JUNGLE_B",
-    items: "shovel",
-    state: 0,
+    coord:  (7, 7),
+    desc:   "JUNGLE_B",
+    items:  "Fishing Pole",
 };
-
 const JUNGLE_C: Tile = Tile {
-    pos_y: 7,
-    pos_x: 8,
-    desc: "There are thick trees all around you. JUNGLE_C",
-    items: "",
-    state: 0,
+    coord:  (8, 7),
+    desc:   "JUNGLE_C",
+    items:  "",
 };
 
-static ALL_TILES: [Tile; 4] = [BEACH, JUNGLE_A, JUNGLE_B, JUNGLE_C];
+/*
+    Quest Maps?
+*/
+const OLD_MAN: Tile = Tile {
+    coord:  (14, 8),
+    desc:   "OLD_MAN",
+    items:  "something for gold fish",
+};
 
-pub fn get_desc(pos_y: i32, pos_x: i32) {
+static ALL_TILES: [Tile; 4] = [JUNGLE_A, JUNGLE_B, JUNGLE_C, OLD_MAN];
+
+pub fn get_desc(pos_x: i32, pos_y: i32) {
     // Print tile description given a (y, x) coordinate
 
     for i in 0..ALL_TILES.len() {
-        if ALL_TILES[i].pos_y == pos_y && ALL_TILES[i].pos_x == pos_x {
+        if ALL_TILES[i].coord == (pos_x, pos_y) {
             xprint(ALL_TILES[i].desc);
         }
     }

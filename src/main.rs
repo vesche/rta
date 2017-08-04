@@ -27,6 +27,11 @@ q - quit the game
 h - show this help text
 i - inventory";
 
+struct Position {
+    x: i32,
+    y: i32,
+}
+
 fn main() {
     // define map
     let mut map = [
@@ -43,12 +48,16 @@ fn main() {
     ["|","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","|"]];
     
     // starting position
-    let mut pos_y: i32 = 7;
-    let mut pos_x: i32 = 7;
-    
+    let mut pos = Position {
+        x: 7,
+        y: 7,
+    };
+    let mut mov = Position {
+        x: 0,
+        y: 0,
+    };
+
     // initial variables
-    let mut mod_y: i32 = 0;
-    let mut mod_x: i32 = 0;
     let mut level = 0;
     let mut message = "You awake in a dark, damp jungle on a mysterious island...";
     let mut inventory = ["lamp", "sword", "hat"];
@@ -67,23 +76,23 @@ fn main() {
         common::clear_screen();
         
         // set player position
-        map[pos_y as usize][pos_x as usize] = "@";
+        map[pos.y as usize][pos.x as usize] = "@";
         
-        // display game - stats & map
-        println!("RTA | {} | LV: {} | y: {} x: {} | r: {}", name, level, pos_y, pos_x, r);
+        // print stats & map
+        println!("RTA | {} | LV: {} | ({}, {}) | r: {}", name, level, pos.x, pos.y, r);
         for i in 0..11 {
             println!("{}", map[i].join(""));
         }
         
         // print message & tile description
         common::xprint(message);
-        tiles::get_desc(pos_y, pos_x);
+        tiles::get_desc(pos.x, pos.y);
         
-        // reset player position and message
-        map[pos_y as usize][pos_x as usize] = "*";
+        // reset player position, message, and move modification
+        map[pos.y as usize][pos.x as usize] = "*";
         message = "";
-        mod_y = 0;
-        mod_x = 0;
+        mov.x = 0;
+        mov.y = 0;
         
         // get player move
         let mut player_move = String::new();
@@ -92,10 +101,10 @@ fn main() {
         
         // act on player move
         match player_move.as_ref() {
-            "n" => mod_y = -1,
-            "s" => mod_y =  1,
-            "e" => mod_x =  1,
-            "w" => mod_x = -1,
+            "n" => mov.y = -1,
+            "s" => mov.y =  1,
+            "e" => mov.x =  1,
+            "w" => mov.x = -1,
             "q" => break,
             "h" => message = HELP_TEXT,
             "i" => message = "inv", // inventory.join(" "),
@@ -103,11 +112,11 @@ fn main() {
         };
         
         // move in direction if possible
-        if map[(pos_y + mod_y) as usize][(pos_x + mod_x) as usize] == " " {
+        if map[(pos.y + mov.y) as usize][(pos.x + mov.x) as usize] == " " {
             message = "You can't go that way!";
         } else {
-            pos_y += mod_y;
-            pos_x += mod_x;
+            pos.x += mov.x;
+            pos.y += mov.y;
         }
     }
 }
