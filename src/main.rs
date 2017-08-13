@@ -11,10 +11,10 @@ mod common;
 mod tiles;
 
 const BANNER: &'static str = "
-'||''|.   |''||''|     |    
- ||   ||     ||       |||   
- ||''|'      ||      |  ||  
- ||   |.     ||     .''''|. 
+'||''|.   |''||''|     |
+ ||   ||     ||       |||
+ ||''|'      ||      |  ||
+ ||   |.     ||     .''''|.
 .||.  '|'   .||.   .|.  .||.
      Rust Text Adventure";
 
@@ -23,9 +23,12 @@ n - move north
 s - move south
 e - move east
 w - move west
-q - quit the game
+i - inventory
+t - talk
+g - get an item
+u - use an item
 h - show this help text
-i - inventory";
+q - quit the game";
 
 struct Position {
     x: i32,
@@ -37,7 +40,7 @@ fn main() {
     let mut map = [
     [" ","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_"," "],
     ["|"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","|"],
-    ["|"," "," "," ","*"," "," "," "," "," "," ","*","*"," "," "," "," "," "," "," "," ","|"],
+    ["|"," "," "," ","*"," "," "," "," "," "," "," ","*"," "," "," "," "," "," "," "," ","|"],
     ["|"," "," "," ","*","*"," "," "," ","*","*","*","*","*"," "," "," "," "," "," "," ","|"],
     ["|"," "," "," ","*","*","*"," "," "," ","*","*","*","*"," ","*","*","*"," "," "," ","|"],
     ["|"," "," "," "," "," ","*","*"," ","*","*","*"," ","*","*","*","*","*"," "," "," ","|"],
@@ -46,12 +49,14 @@ fn main() {
     ["|"," "," "," "," ","*","*","*","*","*"," "," ","*","*","*"," "," "," "," "," "," ","|"],
     ["|"," "," "," "," "," ","*","*"," "," "," "," "," "," "," "," "," "," "," "," "," ","|"],
     ["|","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","|"]];
-    
+
     // starting position
     let mut pos = Position {
         x: 7,
         y: 7,
     };
+
+    // define position delta
     let mut mov = Position {
         x: 0,
         y: 0,
@@ -61,7 +66,7 @@ fn main() {
     let mut level = 0;
     let mut message = "You awake in a dark, damp jungle on a mysterious island...";
     let mut inventory = ["lamp", "sword", "hat"];
-    
+
     // this is a placeholder to keep the random lib
     let r = rand::thread_rng().gen_range(1, 101);
 
@@ -69,36 +74,36 @@ fn main() {
     common::clear_screen();
     println!("{}\n", BANNER);
     let name = common::input("What's your name? ");
-    
+
     // main game loop
     loop {
         // clear the screen
         common::clear_screen();
-        
+
         // set player position
         map[pos.y as usize][pos.x as usize] = "@";
-        
+
         // print stats & map
         println!("RTA | {} | LV: {} | ({}, {}) | r: {}", name, level, pos.x, pos.y, r);
         for i in 0..11 {
             println!("{}", map[i].join(""));
         }
-        
+
         // print message & tile description
         common::xprint(message);
         tiles::get_desc(pos.x, pos.y);
-        
+
         // reset player position, message, and move modification
         map[pos.y as usize][pos.x as usize] = "*";
         message = "";
         mov.x = 0;
         mov.y = 0;
-        
+
         // get player move
         let mut player_move = String::new();
         player_move = common::input("> ");
         player_move = player_move.to_lowercase();
-        
+
         // act on player move
         match player_move.as_ref() {
             "n" => mov.y = -1,
@@ -110,7 +115,7 @@ fn main() {
             "i" => message = "inv", // inventory.join(" "),
             _   => message = "Invalid move!",
         };
-        
+
         // move in direction if possible
         if map[(pos.y + mov.y) as usize][(pos.x + mov.x) as usize] == " " {
             message = "You can't go that way!";

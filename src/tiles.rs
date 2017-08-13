@@ -19,34 +19,56 @@ struct Tile {
 }
 
 /*
-    Jungle (south west side of the map)
+    Quest Maps
 */
-const JUNGLE_A: Tile = Tile {
-    coord:  (6, 7),
-    desc:   "JUNGLE_A",
-    items:  "",
-};
-const JUNGLE_B: Tile = Tile {
+const CHESTS: Tile = Tile {
     coord:  (7, 7),
-    desc:   "JUNGLE_B",
-    items:  "Fishing Pole",
+    desc:   "Trees whisper in the wind all around you, strange hyroglifics have been etched into some of there trunks. A massive gold chest and a small silver chest are here in the clearing.",
+    items:  "Mainsail Rudder",
 };
-const JUNGLE_C: Tile = Tile {
+const GOBLINS: Tile = Tile {
+    coord:  (6, 7),
+    desc:   "You are deep in the jungle of the island. Three bright red goblins are skipping about amongst the trees. The goblins show their sharp teeth in hunger.",
+    items:  "SilverKey",
+};
+const APPLE_TREE_A: Tile = Tile {
     coord:  (8, 7),
-    desc:   "JUNGLE_C",
-    items:  "",
+    desc:   "The jungle grows less thick here. There is a sorry looking apple sitting on the jungle floor.",
+    items:  "Apple",
 };
-
-/*
-    Quest Maps?
-*/
+const APPLE_TREE_B: Tile = Tile {
+    coord:  (10, 5),
+    desc:   "You march atop a large hill. There is an enormous apple tree here adorned with huge shiny red apples perfect to pick. There is a sign standing in front of the tree that reads: 'Take one, or else!'",
+    items:  "Apple",
+};
+const APPLE_TREE_C: Tile = Tile {
+    coord:  (16, 5),
+    desc:   "A beautiful beach is around you in every direction. A little girl sits crossed legged here reading with a book in one hand, and an apple in the other.",
+    items:  "Apple",
+};
 const OLD_MAN: Tile = Tile {
     coord:  (14, 8),
-    desc:   "OLD_MAN",
-    items:  "something for gold fish",
+    desc:   "The rocky coastline becomes flat here. A small seaside shack has been built near the water. An ancient man is sitting in a chair weaving a large net. His eyes shine a bluish grey that sends a shiver down your spine.",
+    items:  "Shovel",
+};
+const GOLD_FISH: Tile = Tile {
+    coord:  (4, 2),
+    desc:   "The sun shines down on the ocean with a fantastic golden color. There are tons of fish in the water, more than you have ever seen!",
+    items:  "GoldFish",
+};
+const DIRT_MOUND: Tile = Tile {
+    coord:  (6, 4),
+    desc:   "You walk on a narrow beach with water on both sides. There is an extremely odd mound of dirt here that's been dried by the sun, you'd need a tool of some sort to uncover it.",
+    items: "GoldKey",
+};
+const DOCK: Tile = Tile {
+    coord:  (12, 2),
+    desc:   "A short wooden dock here extends out to the water. There is a run down sailboat tied to the end of the dock. This might be the only way to escape! However, you notice the sailboat is missing a mainsail and the rudder is broken beyond repair.",
+    items: "",
 };
 
-static ALL_TILES: [Tile; 4] = [JUNGLE_A, JUNGLE_B, JUNGLE_C, OLD_MAN];
+static ALL_TILES: [Tile; 9] = [CHESTS, GOBLINS, APPLE_TREE_A, APPLE_TREE_B,
+    APPLE_TREE_C, OLD_MAN, GOLD_FISH, DIRT_MOUND, DOCK];
 
 pub fn get_desc(pos_x: i32, pos_y: i32) {
     // Print tile description given a (y, x) coordinate
